@@ -2,6 +2,8 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:internship_task_3/consts/global_colors.dart';
+import 'package:internship_task_3/models/categories_model.dart';
+import 'package:provider/provider.dart';
 
 class Categories_Widget extends StatefulWidget {
   const Categories_Widget({super.key});
@@ -13,6 +15,7 @@ class Categories_Widget extends StatefulWidget {
 class _Categories_WidgetState extends State<Categories_Widget> {
   @override
   Widget build(BuildContext context) {
+    final categoriesModel = Provider.of<CategoriesModel>(context);
     Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -28,14 +31,14 @@ class _Categories_WidgetState extends State<Categories_Widget> {
                 color: Colors.red,
                 size: 28,
               ),
-              imageUrl: "https://i.ibb.co/vwB46Yq/shoes.png",
+              imageUrl: categoriesModel.image.toString(),
               boxFit: BoxFit.fill,
             ),
           ),
           Positioned.fill(
             child: Align(
               alignment: Alignment.center,
-              child: Text('data',
+              child: Text(categoriesModel.name.toString(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       backgroundColor: lightCardColor.withOpacity(0.5),

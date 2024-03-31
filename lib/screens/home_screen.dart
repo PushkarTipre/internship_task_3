@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:internship_task_3/custom_widgets/appbar_icon.dart';
 import 'package:internship_task_3/custom_widgets/feed_grid.dart';
-import 'package:internship_task_3/custom_widgets/feeds_widget.dart';
+
 import 'package:internship_task_3/custom_widgets/sale_widget.dart';
 import 'package:internship_task_3/models/products_model.dart';
 import 'package:internship_task_3/screens/categories_screen.dart';
@@ -20,7 +20,7 @@ class Home_Screen extends StatefulWidget {
 }
 
 class _Home_ScreenState extends State<Home_Screen> {
-  List<ProductsModel> productList = [];
+  // List<ProductsModel> productList = [];
   late TextEditingController textEditingController;
   @override
   void initState() {
@@ -34,16 +34,16 @@ class _Home_ScreenState extends State<Home_Screen> {
     super.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    getProducts();
-    super.didChangeDependencies();
-  }
-
-  Future<void> getProducts() async {
-    productList = await APIHnadler.getAllProducts();
-    setState(() {});
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   getProducts();
+  //   super.didChangeDependencies();
+  // }
+  //
+  // Future<void> getProducts() async {
+  //   productList = await APIHnadler.getAllProducts();
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _Home_ScreenState extends State<Home_Screen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Home'),
-          leading: AppBarIcons(
+          leading: App_Bar_Icons(
               function: () {
                 Navigator.push(
                     context,
@@ -65,7 +65,7 @@ class _Home_ScreenState extends State<Home_Screen> {
               },
               icon: IconlyBold.category),
           actions: [
-            AppBarIcons(
+            App_Bar_Icons(
                 function: () {
                   Navigator.push(
                       context,
@@ -106,6 +106,9 @@ class _Home_ScreenState extends State<Home_Screen> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 18.0,
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -115,7 +118,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                         child: Swiper(
                           itemCount: 3,
                           itemBuilder: (ctx, index) {
-                            return SaleWidget();
+                            return Sale_Widget();
                           },
                           pagination: SwiperPagination(
                             alignment: Alignment.bottomCenter,
@@ -136,7 +139,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                               style: TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.bold),
                             ),
-                            AppBarIcons(
+                            App_Bar_Icons(
                                 function: () {
                                   Navigator.push(
                                       context,
@@ -148,9 +151,24 @@ class _Home_ScreenState extends State<Home_Screen> {
                           ],
                         ),
                       ),
-                      productList.isEmpty
-                          ? Container()
-                          : FeedsGridWidget(productsList: productList),
+                      FutureBuilder<List<ProductsModel>>(
+                          future: APIHnadler.getAllProducts(),
+                          builder: ((context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Center(
+                                child: Text('Error: ${snapshot.error}'),
+                              );
+                            } else {
+                              return Feeds_Grid_Widget(
+                                productsList: snapshot.data!,
+                              );
+                            }
+                          })),
                     ],
                   ),
                 ),
