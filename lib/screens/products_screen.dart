@@ -3,15 +3,16 @@ import 'dart:developer';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
-
+import 'package:internship_task_3/services/api_handler.dart';
 import '../consts/global_colors.dart';
 import '../models/products_model.dart';
 
 class ProductDetails extends StatefulWidget {
   const ProductDetails({
     Key? key,
+    required this.id,
   }) : super(key: key);
-
+  final String id;
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
 }
@@ -23,7 +24,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   String errorStr = "";
   Future<void> getProductInfo() async {
     try {
-      //productsModel = await APIHandler.getProductById(id: widget.id);
+      productsModel = await APIHnadler.getProductByID(id: widget.id);
     } catch (error) {
       isError = true;
       errorStr = error.toString();

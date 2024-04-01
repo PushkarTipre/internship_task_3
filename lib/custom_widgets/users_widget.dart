@@ -1,13 +1,18 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+
 import 'package:internship_task_3/consts/global_colors.dart';
+import 'package:provider/provider.dart';
+
+import '../models/users_model.dart';
 
 class Users_Widget extends StatelessWidget {
   const Users_Widget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final usersModelProvider = Provider.of<UsersModel>(context);
     Size size = MediaQuery.of(context).size;
     return ListTile(
       leading: FancyShimmerImage(
@@ -18,13 +23,13 @@ class Users_Widget extends StatelessWidget {
           color: Colors.red,
           size: 28,
         ),
-        imageUrl: "https://i.ibb.co/vwB46Yq/shoes.png",
+        imageUrl: usersModelProvider.avatar.toString(),
         boxFit: BoxFit.fill,
       ),
-      title: Text('User Name'),
-      subtitle: Text('User Email'),
+      title: Text(usersModelProvider.name.toString()),
+      subtitle: Text(usersModelProvider.email.toString()),
       trailing: Text(
-        'User Role',
+        usersModelProvider.role.toString(),
         style: TextStyle(color: lightIconsColor, fontWeight: FontWeight.bold),
       ),
     );

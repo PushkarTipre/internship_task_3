@@ -152,7 +152,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                         ),
                       ),
                       FutureBuilder<List<ProductsModel>>(
-                          future: APIHnadler.getAllProducts(),
+                          future: APIHnadler.getAllProducts(limit: '3'),
                           builder: ((context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {

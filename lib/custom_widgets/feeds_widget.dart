@@ -27,7 +27,9 @@ class Feeds_Widget extends StatelessWidget {
                 context,
                 PageTransition(
                     type: PageTransitionType.fade,
-                    child: const ProductDetails()));
+                    child: ProductDetails(
+                      id: productsModelProvider.id.toString(),
+                    )));
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
